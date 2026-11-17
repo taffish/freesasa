@@ -1,0 +1,49 @@
+[package]
+name = "freesasa"
+kind = "tool"
+version = "2.1.4"
+release = 1
+license = "Apache-2.0"
+main = "src/main.taf"
+
+[repository]
+url = "https://github.com/taffish/freesasa"
+
+[command]
+name = "taf-freesasa"
+
+[runtime]
+pipe = true
+command_mode = true
+
+[container]
+image = "ghcr.io/taffish/freesasa:2.1.4-r1"
+dockerfile = "docker/Dockerfile"
+build_platforms = "linux/amd64,linux/arm64"
+
+[meta]
+domain = "bio"
+categories = ["structural-biology", "protein-structure", "surface-area", "solvent-accessibility"]
+keywords = ["freesasa", "SASA", "solvent accessible surface area", "protein structure", "PDB", "mmCIF", "RSA", "JSON", "XML", "Lee Richards", "Shrake Rupley"]
+description = "FreeSASA 2.1.4 command-line runtime and static C library for solvent accessible surface area calculations."
+
+[upstream]
+name = "FreeSASA"
+type = "github"
+repo = "mittinatten/freesasa"
+homepage = "https://freesasa.github.io/"
+manual = "https://freesasa.github.io/doxygen/CLI.html"
+release_url = "https://github.com/mittinatten/freesasa/releases/tag/2.1.4"
+downloads = "https://codeload.github.com/mittinatten/freesasa/tar.gz/f5bc39f3cc6418db35455783609058bfa702cccb"
+version = "2.1.4"
+commit = "f5bc39f3cc6418db35455783609058bfa702cccb"
+license = "MIT; bundled Gemmi headers MPL-2.0 and PEGTL MIT"
+citation = "Mitternacht S. FreeSASA: An open source C library for solvent accessible surface area calculations. F1000Research. 2016;5:189."
+doi = "10.12688/f1000research.7931.1"
+watch = "tags"
+
+[smoke]
+backend = "docker"
+timeout = 180
+exist = ["freesasa", "grep", "sed", "ldd", "tail"]
+test = ["/usr/local/libexec/taf-freesasa-smoke identity", "/usr/local/libexec/taf-freesasa-smoke help", "/usr/local/libexec/taf-freesasa-smoke pdb", "/usr/local/libexec/taf-freesasa-smoke cif", "/usr/local/libexec/taf-freesasa-smoke selection"]

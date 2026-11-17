@@ -1,54 +1,47 @@
-freesasa 2.1.3-r1
+taf-freesasa 2.1.4-r1
 
 Purpose:
-  Solvent accessible surface area (SASA) calculation for biomolecular
-  structures with the FreeSASA command-line tool and C library runtime.
+  Calculate solvent-accessible surface area (SASA) from a structure.
 
 Usage:
+  taf-freesasa freesasa structure.pdb
   taf-freesasa -- --help
   taf-freesasa -- --version
-  taf-freesasa protein.pdb
-  taf-freesasa --format=json --depth=residue -o protein.sasa.json protein.pdb
 
-Common workflows:
-  taf-freesasa --cif --format=xml -o protein.sasa.xml protein.cif
-  taf-freesasa --shrake-rupley --resolution=960 protein.pdb
-  taf-freesasa --radii=naccess --format=rsa -o protein.rsa protein.pdb
-  taf-freesasa --select="chain_A, chain A" protein.pdb
+Common tasks:
+  taf-freesasa freesasa --format=json --depth=residue -o areas.json structure.pdb
+  taf-freesasa freesasa --cif --format=xml -o areas.xml structure.cif
+  taf-freesasa freesasa --shrake-rupley --resolution=960 structure.pdb
+  taf-freesasa freesasa --select='"chain_A, chain A"' structure.pdb
+  taf-freesasa freesasa --config-file=radii.config --format=rsa structure.pdb
+  cat structure.pdb | taf-freesasa freesasa --format=seq
 
-Packaged command:
-  freesasa   FreeSASA 2.1.3 CLI
+Inputs and outputs:
+  PDB is the default; use --cif for mmCIF. Work in the input directory.
+  Output goes to stdout unless you supply -o FILE. Use a new output name:
+  FreeSASA can open or truncate an output before it checks the input.
+  Formats: log, res, seq, rsa, pdb, cif, json, xml. JSON/XML support
+  --depth=structure|chain|residue|atom. Areas are in square angstroms.
+  Annotated PDB and CIF outputs require input of the same type.
 
-Installed runtime files:
-  /opt/freesasa/include/freesasa.h
-  /opt/freesasa/lib/libfreesasa.a
-  /opt/freesasa/share/freesasa/*.config
+Common options:
+  --lee-richards (default) or --shrake-rupley    Calculation algorithm
+  --radii=protor or --radii=naccess             Built-in atom radii
+  --config-file=FILE                           Local classifier instead
+  --probe-radius=NUMBER                        Solvent probe radius in angstroms
+  --n-threads=N                                Number of calculation threads
 
-Inputs:
-  protein.pdb          Default PDB input
-  protein.cif          mmCIF input when --cif is set
-  classifier.config    Custom radii/classes with --config-file FILE
+Immediate notes:
+  No database, download or GUI is needed. Keep custom classifiers with inputs.
+  For spaces in names, keep quotes for the container shell, for example:
+  taf-freesasa freesasa --format=json -o '"out file.json"' '"my file.pdb"'
 
-Key output formats:
-  log                  Default human-readable summary
-  res, seq             Residue or sequence summaries
-  rsa                  NACCESS-like RSA output
-  pdb, cif             Structure-style output with SASA values
-  json, xml            Structured output for downstream parsing
-
-Notes:
-  No external database is required.
-  JSON, XML, mmCIF, and thread support are enabled in this image.
-  Sample classifier configs are under /opt/freesasa/share/freesasa.
-  Python bindings are not included; upstream publishes them separately.
-
-Detailed documentation:
-  https://freesasa.github.io/
-  https://freesasa.github.io/doxygen/CLI.html
-  https://github.com/mittinatten/freesasa
+More help:
+  taf-freesasa -- --help
+  https://github.com/taffish/freesasa
 
 Wrapper options:
   taf-freesasa --help       Show this TAFFISH help.
-  taf-freesasa --version    Show TAFFISH wrapper version.
-  taf-freesasa --compile    Compile the TAFFISH wrapper.
-  taf-freesasa -- --help    Pass option-leading arguments to freesasa.
+  taf-freesasa --version    Show the wrapper version.
+  taf-freesasa --compile    Print the generated shell command.
+  taf-freesasa -- --help    Show FreeSASA's own options.

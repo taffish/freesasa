@@ -1,0 +1,6 @@
+{
+  "artifact": "taf-freesasa-v2.1.4-r1",
+  "schema": "taffish.build/v1",
+  "source_sha256": "e8aab66db711c6bdc4e3e34a96ef76c89a35342fd39c7f52da6f8e53dea7b629",
+  "wrapper_sha256": "bb7ce3e335e0bb2ce65686742cb57113b8ac46732b669ddc1de9f1c3443a6c18"
+}

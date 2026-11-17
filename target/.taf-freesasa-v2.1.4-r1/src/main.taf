@@ -1,0 +1,2 @@
+<taf-app:container:ghcr.io/taffish/freesasa:2.1.4-r1>
+freesasa ::*ARGV*::
